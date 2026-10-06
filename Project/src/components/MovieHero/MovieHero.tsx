@@ -3,11 +3,21 @@ import "./MovieHero.css";
 
 type MovieHeroProps = {
   movie: Movie;
-  onRefresh: () => void;
-  isLoading: boolean;
+  onRefresh?: () => void;
+  onTrailer?: () => void;
+  onDetails?: () => void
+  isLoading?: boolean;
+  showDetailsButton?: boolean;
 };
 
-export function MovieHero({ movie, onRefresh, isLoading }: MovieHeroProps) {
+export function MovieHero({
+  movie,
+  onRefresh,
+  onTrailer,
+  onDetails,
+  isLoading = false,
+  showDetailsButton = true,
+}: MovieHeroProps) {
   return (
     <section className="movie-hero">
       <div className="movie-hero__content">
@@ -31,16 +41,20 @@ export function MovieHero({ movie, onRefresh, isLoading }: MovieHeroProps) {
           <button
             className="movie-hero__button movie-hero__button--primary"
             type="button"
+            onClick={onTrailer}
           >
             Трейлер
           </button>
 
-          <button
-            className="movie-hero__button movie-hero__button--secondary"
-            type="button"
-          >
-            О фильме
-          </button>
+          {showDetailsButton && (
+            <button
+              className="movie-hero__button movie-hero__button--secondary"
+              type="button"
+              onClick={onDetails}
+            >
+              О фильме
+            </button>
+          )}
 
           <button
             className="movie-hero__icon-button"
@@ -50,15 +64,17 @@ export function MovieHero({ movie, onRefresh, isLoading }: MovieHeroProps) {
             ♡
           </button>
 
-          <button
-            className="movie-hero__icon-button"
-            type="button"
-            aria-label="Показать другой фильм"
-            onClick={onRefresh}
-            disabled={isLoading}
-          >
-            ↻
-          </button>
+          {onRefresh && (
+            <button
+              className="movie-hero__icon-button"
+              type="button"
+              aria-label="Показать другой фильм"
+              onClick={onRefresh}
+              disabled={isLoading}
+            >
+              ↻
+            </button>
+          )}
         </div>
       </div>
 

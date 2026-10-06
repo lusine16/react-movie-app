@@ -33,3 +33,9 @@ export async function getMoviesByGenre(
 
   return response.data
 }
+
+export async function getMovieById(id: number): Promise<Movie> {
+  const response = await api.get<Movie>(`/movie/${id}`)
+
+  return response.data
+}

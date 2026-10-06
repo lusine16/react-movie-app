@@ -1,0 +1,42 @@
+.movie-page__about {
+  padding: 0 0 80px;
+}
+
+.movie-page__about-title {
+  margin: 0 0 32px;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+.movie-page__details {
+  max-width: 700px;
+  margin: 0;
+}
+
+.movie-page__details div {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.movie-page__details dt,
+.movie-page__details dd {
+  margin: 0;
+}
+
+.movie-page__details dt {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+@media (max-width: 600px) {
+  .movie-page__about-title {
+    font-size: 24px;
+  }
+
+  .movie-page__details div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 10px 0;
+  }
+}

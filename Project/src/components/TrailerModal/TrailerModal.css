@@ -1,0 +1,48 @@
+.trailer-modal {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.trailer-modal__content {
+  position: relative;
+  width: min(100%, 960px);
+}
+
+.trailer-modal__video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.trailer-modal__close {
+  position: absolute;
+  z-index: 1;
+  top: -20px;
+  right: -20px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  color: #000000;
+  background-color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+}
+
+@media (max-width: 600px) {
+  .trailer-modal {
+    padding: 16px;
+  }
+
+  .trailer-modal__close {
+    top: -44px;
+    right: 0;
+  }
+}
