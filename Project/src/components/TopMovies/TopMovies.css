@@ -1,0 +1,37 @@
+.top-movies {
+  padding: 40px 0 80px;
+}
+
+.top-movies__title {
+  margin: 0 0 32px;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+.top-movies__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 32px 24px;
+}
+
+@media (max-width: 1100px) {
+  .top-movies__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .top-movies {
+    padding-top: 24px;
+  }
+
+  .top-movies__title {
+    margin-bottom: 24px;
+    font-size: 24px;
+  }
+
+  .top-movies__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+}

@@ -1,0 +1,44 @@
+.movie-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  border-radius: 16px;
+}
+
+.movie-card__image,
+.movie-card__placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.movie-card__image {
+  object-fit: cover;
+}
+
+.movie-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.movie-card__position {
+  position: absolute;
+  z-index: 1;
+  top: -12px;
+  left: -12px;
+  min-width: 48px;
+  height: 48px;
+  padding: 0 14px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6a5cff;
+  background-color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+}

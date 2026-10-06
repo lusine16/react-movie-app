@@ -1,0 +1,10 @@
+.layout {
+  width: min(100% - 48px, 1280px);
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    width: min(100% - 32px, 1280px);
+  }
+}
