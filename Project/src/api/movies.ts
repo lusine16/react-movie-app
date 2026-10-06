@@ -12,3 +12,24 @@ export async function getTopMovies(): Promise<Movie[]> {
 
   return response.data
 }
+
+export async function getGenres(): Promise<string[]> {
+  const response = await api.get<string[]>('/movie/genres')
+
+  return response.data
+}
+
+export async function getMoviesByGenre(
+  genre: string,
+  page: number,
+): Promise<Movie[]> {
+  const response = await api.get<Movie[]>('/movie', {
+    params: {
+      genre,
+      count: 10,
+      page,
+    },
+  })
+
+  return response.data
+}

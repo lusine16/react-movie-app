@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
-import type { Movie } from '../../types/Movie'
-import './MovieCard.css'
+import { Link } from "react-router-dom";
+import type { Movie } from "../../types/Movie";
+import "./MovieCard.css";
 
 type MovieCardProps = {
-  movie: Movie
-  position: number
-}
+  movie: Movie;
+  position?: number;
+};
 
 export function MovieCard({ movie, position }: MovieCardProps) {
   return (
@@ -14,7 +14,9 @@ export function MovieCard({ movie, position }: MovieCardProps) {
       to={`/movie/${movie.id}`}
       aria-label={movie.title}
     >
-      <span className="movie-card__position">{position}</span>
+      {position !== undefined && (
+        <span className="movie-card__position">{position}</span>
+      )}
 
       {movie.posterUrl ? (
         <img
@@ -23,10 +25,8 @@ export function MovieCard({ movie, position }: MovieCardProps) {
           alt={movie.title}
         />
       ) : (
-        <div className="movie-card__placeholder">
-          {movie.title}
-        </div>
+        <div className="movie-card__placeholder">{movie.title}</div>
       )}
     </Link>
-  )
+  );
 }
