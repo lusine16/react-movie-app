@@ -4,10 +4,13 @@ import { useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/authSlice";
 import { useState } from "react";
 import { AuthModal } from "../AuthModal/AuthModal";
+import { SearchModal } from "../SearchModal/SearchModal";
 
 export function Header() {
   const user = useAppSelector(selectUser);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
     <header className="header">
       <NavLink to="/" className="header__logo">
@@ -50,7 +53,12 @@ export function Header() {
         </NavLink>
       </div>
 
-      <button className="header__search" type="button" aria-label="Поиск">
+      <button
+        className="header__search"
+        type="button"
+        aria-label="Поиск"
+        onClick={() => setIsSearchOpen(true)}
+      >
         <svg
           className="header__search-icon"
           viewBox="0 0 24 24"
@@ -95,6 +103,7 @@ export function Header() {
         </button>
       )}
       {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
+      {isSearchOpen && <SearchModal onClose={() => setIsSearchOpen(false)} />}
     </header>
   );
 }

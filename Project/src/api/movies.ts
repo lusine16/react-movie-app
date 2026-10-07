@@ -39,3 +39,13 @@ export async function getMovieById(id: number): Promise<Movie> {
 
   return response.data
 }
+
+export async function searchMovies(title: string): Promise<Movie[]> {
+  const response = await api.get<Movie[]>('/movie', {
+    params: {
+      title,
+    },
+  })
+
+  return response.data
+}
