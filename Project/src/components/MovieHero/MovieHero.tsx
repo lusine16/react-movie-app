@@ -5,7 +5,9 @@ type MovieHeroProps = {
   movie: Movie;
   onRefresh?: () => void;
   onTrailer?: () => void;
-  onDetails?: () => void
+  onDetails?: () => void;
+  onFavorite?: () => void;
+  isFavorite?: boolean;
   isLoading?: boolean;
   showDetailsButton?: boolean;
 };
@@ -15,6 +17,8 @@ export function MovieHero({
   onRefresh,
   onTrailer,
   onDetails,
+  onFavorite,
+  isFavorite = false,
   isLoading = false,
   showDetailsButton = true,
 }: MovieHeroProps) {
@@ -59,9 +63,12 @@ export function MovieHero({
           <button
             className="movie-hero__icon-button"
             type="button"
-            aria-label="Добавить в избранное"
+            aria-label={
+              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+            }
+            onClick={onFavorite}
           >
-            ♡
+            {isFavorite ? "♥" : "♡"}
           </button>
 
           {onRefresh && (

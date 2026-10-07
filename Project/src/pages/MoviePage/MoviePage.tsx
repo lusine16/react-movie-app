@@ -5,12 +5,20 @@ import { MovieHero } from "../../components/MovieHero/MovieHero";
 import type { Movie } from "../../types/Movie";
 import { formatMoney } from "../../utils/formatMoney";
 import { TrailerModal } from "../../components/TrailerModal/TrailerModal";
+import { addFavorite, removeFavorite } from "../../api/favorites";
+import { AuthModal } from "../../components/AuthModal/AuthModal";
+import { selectUser, setUser } from "../../store/authSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { getProfile } from "../../api/auth";
 import "./MoviePage.css";
 
 export function MoviePage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   useEffect(() => {
     if (!movieId) {
@@ -26,12 +34,35 @@ export function MoviePage() {
     return <main>Загрузка...</main>;
   }
 
+  const currentMovieId = movie.id;
+
+  const isFavorite = user?.favorites.includes(String(currentMovieId)) ?? false;
+
+  async function handleFavorite() {
+    if (!user) {
+      setIsAuthOpen(true);
+      return;
+    }
+
+    if (isFavorite) {
+      await removeFavorite(currentMovieId);
+    } else {
+      await addFavorite(currentMovieId);
+    }
+
+    const updatedUser = await getProfile();
+
+    dispatch(setUser(updatedUser));
+  }
+
   return (
     <main className="movie-page">
       <MovieHero
         movie={movie}
         showDetailsButton={false}
         onTrailer={() => setIsTrailerOpen(true)}
+        onFavorite={handleFavorite}
+        isFavorite={isFavorite}
       />
 
       <section className="movie-page__about">
@@ -76,6 +107,7 @@ export function MoviePage() {
           onClose={() => setIsTrailerOpen(false)}
         />
       )}
+      {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
     </main>
   );
 }

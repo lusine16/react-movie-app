@@ -1,19 +1,25 @@
-import { NavLink } from 'react-router-dom'
-import './Header.css'
+import { NavLink } from "react-router-dom";
+import "./Header.css";
+import { useAppSelector } from "../../store/hooks";
+import { selectUser } from "../../store/authSlice";
+import { useState } from "react";
+import { AuthModal } from "../AuthModal/AuthModal";
 
 export function Header() {
+  const user = useAppSelector(selectUser);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   return (
     <header className="header">
       <NavLink to="/" className="header__logo">
         <span className="header__logo-icon" />
-      <span className="header__logo-text">маруся</span>
+        <span className="header__logo-text">маруся</span>
       </NavLink>
 
       <nav className="header__nav">
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`
+            `header__nav-link ${isActive ? "header__nav-link--active" : ""}`
           }
         >
           Главная
@@ -22,7 +28,7 @@ export function Header() {
         <NavLink
           to="/genres"
           className={({ isActive }) =>
-            `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`
+            `header__nav-link ${isActive ? "header__nav-link--active" : ""}`
           }
         >
           Жанры
@@ -44,11 +50,7 @@ export function Header() {
         </NavLink>
       </div>
 
-      <button
-        className="header__search"
-        type="button"
-        aria-label="Поиск"
-      >
+      <button className="header__search" type="button" aria-label="Поиск">
         <svg
           className="header__search-icon"
           viewBox="0 0 24 24"
@@ -61,18 +63,38 @@ export function Header() {
         <span className="header__search-text">Поиск</span>
       </button>
 
-      <NavLink to="/account" className="header__account">
-        <span className="header__account-text">Войти</span>
+      {user ? (
+        <NavLink to="/account" className="header__account">
+          <span className="header__account-text">{user.surname}</span>
 
-        <svg
-          className="header__account-icon"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+          <svg
+            className="header__account-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+          </svg>
+        </NavLink>
+      ) : (
+        <button
+          className="header__account"
+          type="button"
+          onClick={() => setIsAuthOpen(true)}
         >
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-        </svg>
-      </NavLink>
+          <span className="header__account-text">Войти</span>
+
+          <svg
+            className="header__account-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+          </svg>
+        </button>
+      )}
+      {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
     </header>
-  )
+  );
 }

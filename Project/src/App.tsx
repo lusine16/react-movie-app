@@ -1,12 +1,28 @@
-import { Route, Routes } from 'react-router-dom'
-import { AccountPage } from './pages/AccountPage/AccountPage'
-import { GenrePage } from './pages/GenrePage/GenrePage'
-import { GenresPage } from './pages/GenresPage/GenresPage'
-import { HomePage } from './pages/HomePage/HomePage'
-import { MoviePage } from './pages/MoviePage/MoviePage'
-import { Layout } from './components/Layout/Layout'
+import { Route, Routes } from "react-router-dom";
+import { AccountPage } from "./pages/AccountPage/AccountPage";
+import { GenrePage } from "./pages/GenrePage/GenrePage";
+import { GenresPage } from "./pages/GenresPage/GenresPage";
+import { HomePage } from "./pages/HomePage/HomePage";
+import { MoviePage } from "./pages/MoviePage/MoviePage";
+import { Layout } from "./components/Layout/Layout";
+import { useEffect } from "react";
+import { getProfile } from "./api/auth";
+import { useAppDispatch } from "./store/hooks";
+import { clearUser, setUser } from "./store/authSlice";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    getProfile()
+      .then((user) => {
+        dispatch(setUser(user));
+      })
+      .catch(() => {
+        dispatch(clearUser());
+      });
+  }, [dispatch]);
+
   return (
     <Layout>
       <Routes>
@@ -17,7 +33,7 @@ function App() {
         <Route path="/account" element={<AccountPage />} />
       </Routes>
     </Layout>
-  )
+  );
 }
 
-export default App
+export default App;

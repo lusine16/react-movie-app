@@ -83,8 +83,10 @@
 }
 
 .header__account {
-  flex-shrink: 0;
-  font-size: 16px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
 }
 
 .header__mobile-actions,
