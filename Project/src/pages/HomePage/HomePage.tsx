@@ -5,12 +5,21 @@ import { TopMovies } from "../../components/TopMovies/TopMovies";
 import type { Movie } from "../../types/Movie";
 import { useNavigate } from "react-router-dom";
 import { TrailerModal } from "../../components/TrailerModal/TrailerModal";
+import { addFavorite, removeFavorite } from "../../api/favorites";
+import { getProfile } from "../../api/auth";
+import { AuthModal } from "../../components/AuthModal/AuthModal";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { selectUser, setUser } from "../../store/authSlice";
 
 export function HomePage() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
   const navigate = useNavigate();
+
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   useEffect(() => {
     getRandomMovie().then((randomMovie) => {
@@ -28,9 +37,33 @@ export function HomePage() {
     setIsLoading(false);
   }
 
+  async function handleFavorite() {
+    if (!movie) {
+      return;
+    }
+
+    if (!user) {
+      setIsAuthOpen(true);
+      return;
+    }
+
+    const isFavorite = user.favorites.includes(String(movie.id));
+
+    if (isFavorite) {
+      await removeFavorite(movie.id);
+    } else {
+      await addFavorite(movie.id);
+    }
+
+    const updatedUser = await getProfile();
+    dispatch(setUser(updatedUser));
+  }
+
   if (!movie) {
     return <main>Загрузка...</main>;
   }
+
+  const isFavorite = user?.favorites.includes(String(movie.id)) ?? false;
 
   return (
     <main>
@@ -40,6 +73,8 @@ export function HomePage() {
         onTrailer={() => setIsTrailerOpen(true)}
         onDetails={() => navigate(`/movie/${movie.id}`)}
         isLoading={isLoading}
+        onFavorite={handleFavorite}
+        isFavorite={isFavorite}
       />
 
       <TopMovies />
@@ -50,6 +85,7 @@ export function HomePage() {
           onClose={() => setIsTrailerOpen(false)}
         />
       )}
+      {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
     </main>
   );
 }
