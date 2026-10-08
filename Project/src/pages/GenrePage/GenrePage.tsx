@@ -6,7 +6,11 @@ import { genreTitles } from "../../data/genreTitles";
 import type { Movie } from "../../types/Movie";
 import "./GenrePage.css";
 
-export function GenrePage() {
+function sortMoviesByRating(movies: Movie[]) {
+  return [...movies].sort((a, b) => b.tmdbRating - a.tmdbRating);
+}
+
+function GenrePageContent() {
   const { genre } = useParams();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
@@ -20,7 +24,9 @@ export function GenrePage() {
 
     getMoviesByGenre(genre, page).then((genreMovies) => {
       setMovies((currentMovies) =>
-        page === 1 ? genreMovies : [...currentMovies, ...genreMovies],
+        page === 1
+          ? sortMoviesByRating(genreMovies)
+          : sortMoviesByRating([...currentMovies, ...genreMovies]),
       );
       setHasMore(genreMovies.length === 10);
     });
@@ -68,4 +74,10 @@ export function GenrePage() {
       )}
     </main>
   );
+}
+
+export function GenrePage() {
+  const { genre } = useParams();
+
+  return <GenrePageContent key={genre} />;
 }
