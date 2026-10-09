@@ -5,6 +5,10 @@ import { selectUser } from "../../store/authSlice";
 import { useState } from "react";
 import { AuthModal } from "../AuthModal/AuthModal";
 import { SearchModal } from "../SearchModal/SearchModal";
+import logoImage from "../../assets/icons/logo.svg";
+import searchImage from "../../assets/icons/search.svg";
+import genresImage from "../../assets/icons/genres.svg";
+import accountImage from "../../assets/icons/account.svg";
 
 export function Header() {
   const user = useAppSelector(selectUser);
@@ -14,8 +18,7 @@ export function Header() {
   return (
     <header className="header">
       <NavLink to="/" className="header__logo">
-        <span className="header__logo-icon" />
-        <span className="header__logo-text">маруся</span>
+        <img src={logoImage} alt="Маруся" className="header__logo-image" />
       </NavLink>
 
       <nav className="header__nav">
@@ -44,12 +47,7 @@ export function Header() {
           className="header__icon-button"
           aria-label="Жанры"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="4" y="4" width="6" height="6" rx="1" />
-            <rect x="14" y="4" width="6" height="6" rx="1" />
-            <rect x="4" y="14" width="6" height="6" rx="1" />
-            <rect x="14" y="14" width="6" height="6" rx="1" />
-          </svg>
+          <img src={genresImage} alt="" />
         </NavLink>
       </div>
 
@@ -59,14 +57,7 @@ export function Header() {
         aria-label="Поиск"
         onClick={() => setIsSearchOpen(true)}
       >
-        <svg
-          className="header__search-icon"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="6" />
-          <path d="m16 16 4 4" />
-        </svg>
+        <img src={searchImage} alt="" className="header__search-icon" />
 
         <span className="header__search-text">Поиск</span>
       </button>
@@ -75,14 +66,7 @@ export function Header() {
         <NavLink to="/account" className="header__account">
           <span className="header__account-text">{user.surname}</span>
 
-          <svg
-            className="header__account-icon"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-          </svg>
+          <img src={accountImage} alt="" className="header__account-icon" />
         </NavLink>
       ) : (
         <button
@@ -92,14 +76,7 @@ export function Header() {
         >
           <span className="header__account-text">Войти</span>
 
-          <svg
-            className="header__account-icon"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-          </svg>
+          <img src={accountImage} alt="" className="header__account-icon" />
         </button>
       )}
       {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
