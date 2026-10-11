@@ -22,26 +22,27 @@ import { genreTitles } from "../data/genreTitles";
 import type { Genre } from "../types/Genre";
 
 const genreImages: Record<string, string> = {
+  drama: dramaImage,
+  comedy: comedyImage,
+  crime: crimeImage,
+  family: familyImage,
   history: historyImage,
+  thriller: thrillerImage,
   horror: horrorImage,
   scifi: scifiImage,
+  adventure: adventureImage,
+  mystery: mysteryImage,
   "stand-up": standUpImage,
   fantasy: fantasyImage,
-  drama: dramaImage,
-  mystery: mysteryImage,
-  family: familyImage,
-  comedy: comedyImage,
   romance: romanceImage,
   music: musicImage,
-  crime: crimeImage,
   "tv-movie": tvMovieImage,
   documentary: documentaryImage,
   action: actionImage,
-  thriller: thrillerImage,
   western: westernImage,
   animation: animationImage,
   war: warImage,
-  adventure: adventureImage,
+  
 };
 
 export function createGenres(names: string[]): Genre[] {

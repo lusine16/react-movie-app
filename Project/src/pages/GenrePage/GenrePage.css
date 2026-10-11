@@ -1,17 +1,23 @@
 .genre-page {
-  padding: 48px 0 80px;
+  padding: 34px 0 80px;
+}
+.genre-page__title-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 32px 0 64px;
+  gap: 13px;
 }
 
 .genre-page__title {
-  margin: 0 0 48px;
   font-size: 48px;
   line-height: 1.1;
+  margin: 0;
 }
 
 .genre-page__grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 32px 24px;
+  grid-template-columns: repeat(5, auto);
+  gap: 64px 40px;
 }
 
 @media (max-width: 1100px) {

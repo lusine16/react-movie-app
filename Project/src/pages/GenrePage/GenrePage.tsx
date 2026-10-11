@@ -4,6 +4,7 @@ import { getMoviesByGenre } from "../../api/movies";
 import { MovieCard } from "../../components/MovieCard/MovieCard";
 import { genreTitles } from "../../data/genreTitles";
 import type { Movie } from "../../types/Movie";
+import backImage  from "../../assets/icons/back.svg";
 import "./GenrePage.css";
 
 function sortMoviesByRating(movies: Movie[]) {
@@ -58,7 +59,10 @@ function GenrePageContent() {
 
   return (
     <main className="genre-page">
+      <div className="genre-page__title-wrapper">
+        <img src={backImage} alt="" />
       <h1 className="genre-page__title">{genreTitles[genre] ?? genre}</h1>
+      </div>
 
       <div className="genre-page__grid">
         {movies.map((movie) => (

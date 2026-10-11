@@ -3,6 +3,8 @@
   display: block;
   aspect-ratio: 2 / 3;
   border-radius: 16px;
+  width: 224px;
+  height: 336px;
 }
 
 .movie-card__image,

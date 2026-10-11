@@ -1,8 +1,14 @@
 .genres-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 32px 24px;
+  grid-template-columns: repeat(4, auto);
+  gap: 76px 40px;
   padding-bottom: 80px;
+}
+.genres-title {
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 700;
+  margin: 64px 0;
 }
 
 @media (max-width: 1000px) {

@@ -16,7 +16,7 @@ export function GenresPage() {
 
   return (
     <main>
-      <h1>Жанры фильмов</h1>
+      <h1 className="genres-title">Жанры фильмов</h1>
 
       <div className="genres-grid">
         {genres.map((genre) => (
