@@ -1,5 +1,9 @@
 import type { Movie } from "../../types/Movie";
 import "./MovieHero.css";
+import favoriteIcon from "../../assets/icons/favorite.svg";
+import favoriteFilledIcon from "../../assets/icons/favorite-filled.svg";
+import refreshIcon from "../../assets/icons/refresh.svg";
+import starIcon from "../../assets/icons/star.svg";
 
 type MovieHeroProps = {
   movie: Movie;
@@ -27,6 +31,12 @@ export function MovieHero({
       <div className="movie-hero__content">
         <div className="movie-hero__meta">
           <span className="movie-hero__rating">
+             <img
+                src={starIcon}
+                alt=""
+                aria-hidden="true"
+                className="movie-hero__star-icon"
+              />
             {movie.tmdbRating.toFixed(1)}
           </span>
 
@@ -68,7 +78,11 @@ export function MovieHero({
             }
             onClick={onFavorite}
           >
-            {isFavorite ? "♥" : "♡"}
+            <img
+              src={isFavorite ? favoriteFilledIcon : favoriteIcon}
+              alt=""
+              aria-hidden="true"
+            />
           </button>
 
           {onRefresh && (
@@ -79,7 +93,12 @@ export function MovieHero({
               onClick={onRefresh}
               disabled={isLoading}
             >
-              ↻
+              <img
+                src={refreshIcon}
+                alt=""
+                aria-hidden="true"
+                className="movie-hero__refresh-icon"
+              />
             </button>
           )}
         </div>
