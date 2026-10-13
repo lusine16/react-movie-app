@@ -21,6 +21,9 @@
   color: rgba(255, 255, 255, 0.7);
   background: transparent;
   font-size: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .account-page__tab--active {
@@ -28,7 +31,7 @@
 }
 
 .account-page__tab--active::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   bottom: 0;

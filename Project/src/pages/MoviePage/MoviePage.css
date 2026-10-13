@@ -40,3 +40,28 @@
     padding: 10px 0;
   }
 }
+
+
+.movie-page__details > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.movie-page__details dt {
+  flex-shrink: 0;
+}
+
+.movie-page__details > div::before {
+  content: "";
+  order: 1;
+  flex: 1;
+  max-width: 240px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+.movie-page__details dd {
+  order: 2;
+  margin: 0;
+  text-align: right;
+}

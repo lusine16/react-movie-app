@@ -1,10 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./Header.css";
 import { useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/authSlice";
-import { useState } from "react";
 import { AuthModal } from "../AuthModal/AuthModal";
-import { SearchModal } from "../SearchModal/SearchModal";
+import { searchMovies } from "../../api/movies";
+import type { Movie } from "../../types/Movie";
 import logoImage from "../../assets/icons/logo.svg";
 import searchImage from "../../assets/icons/search.svg";
 import genresImage from "../../assets/icons/genres.svg";
@@ -13,7 +14,32 @@ import accountImage from "../../assets/icons/account.svg";
 export function Header() {
   const user = useAppSelector(selectUser);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    if (!query.trim()) {
+      return;
+    }
+
+    let cancelled = false;
+
+    searchMovies(query)
+      .then((results) => {
+        if (!cancelled) {
+          setMovies(results);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setMovies([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [query]);
 
   return (
     <header className="header">
@@ -51,21 +77,51 @@ export function Header() {
         </NavLink>
       </div>
 
-      <button
-        className="header__search"
-        type="button"
-        aria-label="Поиск"
-        onClick={() => setIsSearchOpen(true)}
-      >
-        <img src={searchImage} alt="" className="header__search-icon" />
+      <div className="header__search-container">
+        <div className="header__search">
+          <img src={searchImage} alt="" className="header__search-icon" />
+          <input
+            className="header__search-input"
+            type="search"
+            placeholder="Поиск"
+            aria-label="Поиск фильмов"
+            value={query}
+            onChange={(event) => {
+              const value = event.target.value;
+              setQuery(value);
+              setMovies([]);
+            }}
+          />
+        </div>
 
-        <span className="header__search-text">Поиск</span>
-      </button>
+        {movies.length > 0 && (
+          <div className="header__search-results">
+            {movies.map((movie) => (
+              <Link
+                key={movie.id}
+                className="header__search-result"
+                to={`/movie/${movie.id}`}
+                onClick={() => {
+                  setQuery("");
+                  setMovies([]);
+                }}
+              >
+                {movie.posterUrl && <img src={movie.posterUrl} alt="" />}
+                <div>
+                  <strong>{movie.title}</strong>
+                  <span>
+                    {movie.releaseYear} · {movie.genres.join(", ")}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
 
       {user ? (
         <NavLink to="/account" className="header__account">
           <span className="header__account-text">{user.surname}</span>
-
           <img src={accountImage} alt="" className="header__account-icon" />
         </NavLink>
       ) : (
@@ -75,12 +131,11 @@ export function Header() {
           onClick={() => setIsAuthOpen(true)}
         >
           <span className="header__account-text">Войти</span>
-
           <img src={accountImage} alt="" className="header__account-icon" />
         </button>
       )}
+
       {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
-      {isSearchOpen && <SearchModal onClose={() => setIsSearchOpen(false)} />}
     </header>
   );
 }

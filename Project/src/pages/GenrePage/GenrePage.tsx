@@ -4,7 +4,8 @@ import { getMoviesByGenre } from "../../api/movies";
 import { MovieCard } from "../../components/MovieCard/MovieCard";
 import { genreTitles } from "../../data/genreTitles";
 import type { Movie } from "../../types/Movie";
-import backImage  from "../../assets/icons/back.svg";
+import backImage from "../../assets/icons/back.svg";
+import { Loader } from "../../components/Loader/Loader";
 import "./GenrePage.css";
 
 function sortMoviesByRating(movies: Movie[]) {
@@ -15,6 +16,7 @@ function GenrePageContent() {
   const { genre } = useParams();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
@@ -23,14 +25,20 @@ function GenrePageContent() {
       return;
     }
 
-    getMoviesByGenre(genre, page).then((genreMovies) => {
-      setMovies((currentMovies) =>
-        page === 1
-          ? sortMoviesByRating(genreMovies)
-          : sortMoviesByRating([...currentMovies, ...genreMovies]),
-      );
-      setHasMore(genreMovies.length === 10);
-    });
+
+    getMoviesByGenre(genre, page)
+      .then((genreMovies) => {
+        setMovies((currentMovies) =>
+          page === 1
+            ? sortMoviesByRating(genreMovies)
+            : sortMoviesByRating([...currentMovies, ...genreMovies]),
+        );
+
+        setHasMore(genreMovies.length === 10);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [genre, page]);
 
   useEffect(() => {
@@ -57,11 +65,19 @@ function GenrePageContent() {
     return <main>Жанр не найден</main>;
   }
 
+  if (isLoading && page === 1) {
+    return (
+      <main className="genre-page">
+        <Loader />
+      </main>
+    );
+  }
+
   return (
     <main className="genre-page">
       <div className="genre-page__title-wrapper">
         <img src={backImage} alt="" />
-      <h1 className="genre-page__title">{genreTitles[genre] ?? genre}</h1>
+        <h1 className="genre-page__title">{genreTitles[genre] ?? genre}</h1>
       </div>
 
       <div className="genre-page__grid">

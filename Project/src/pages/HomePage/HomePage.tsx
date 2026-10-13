@@ -10,6 +10,7 @@ import { getProfile } from "../../api/auth";
 import { AuthModal } from "../../components/AuthModal/AuthModal";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectUser, setUser } from "../../store/authSlice";
+import { Loader } from "../../components/Loader/Loader";
 
 export function HomePage() {
   const dispatch = useAppDispatch();
@@ -59,9 +60,17 @@ export function HomePage() {
     dispatch(setUser(updatedUser));
   }
 
-  if (!movie) {
-    return <main>Загрузка...</main>;
-  }
+ if (isLoading && !movie) {
+  return (
+    <main>
+      <Loader />
+    </main>
+  );
+}
+
+if (!movie) {
+  return null;
+}
 
   const isFavorite = user?.favorites.includes(String(movie.id)) ?? false;
 

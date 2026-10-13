@@ -10,6 +10,7 @@ import { AuthModal } from "../../components/AuthModal/AuthModal";
 import { selectUser, setUser } from "../../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProfile } from "../../api/auth";
+import { Loader } from "../../components/Loader/Loader";
 import "./MoviePage.css";
 
 export function MoviePage() {
@@ -19,19 +20,33 @@ export function MoviePage() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!movieId) {
       return;
     }
 
-    getMovieById(Number(movieId)).then((movieData) => {
-      setMovie(movieData);
-    });
+
+    getMovieById(Number(movieId))
+      .then((movieData) => {
+        setMovie(movieData);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [movieId]);
 
+  if (isLoading) {
+    return (
+      <main className="movie-page">
+        <Loader />
+      </main>
+    );
+  }
+
   if (!movie) {
-    return <main>Загрузка...</main>;
+    return <main>Фильм не найден</main>;
   }
 
   const currentMovieId = movie.id;
